@@ -33,7 +33,7 @@ Conflicts detected; would you like to merge these migrations [y/n]?
 python manage.py runserver
 
 
-# SUBIR PORYECTO A GITHUD
+# SUBIR PORYECTO A GITHUB
 
 paso previo: pip freeze > requirements.txt
 
@@ -43,16 +43,4 @@ git commit -m "Implementacion de Reconocimiento de placas"
 
 git pull origin main
 
-## si hay conflictos
 
-Nota: Resuelve los conflictos manualmente (usa tu editor o GitHub Desktop, VS Code, etc.).
-
-Una vez resueltos, ejecuta:
-
-opcional: git add .
-
-git commit -m "Conflictos resueltos"
-
-git push origin main
-
-## si no hay conflictos
