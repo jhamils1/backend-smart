@@ -33,7 +33,7 @@ Conflicts detected; would you like to merge these migrations [y/n]?
 python manage.py runserver
 
 
-# SUBIR PORYECTO A GITHUB
+# SUBIR PROYECTO A GITHUB
 
 paso previo: pip freeze > requirements.txt
 
