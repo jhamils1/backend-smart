@@ -81,7 +81,7 @@ class ClienteSerializer(serializers.ModelSerializer):
 
 class EmpleadoSerializer(serializers.ModelSerializer):
 	usuario_info = serializers.SerializerMethodField(read_only=True)
-	usuario = UserPKOrNestedField(queryset=User.objects.all(), required=False, allow_null=True)
+	usuario = UserPKOrNestedField(queryset=User.objects.all(), required=True)
 
 	class Meta:
 		model = Empleado
@@ -113,21 +113,17 @@ class EmpleadoSerializer(serializers.ModelSerializer):
 		return value
 
 	def validate_apellido(self, value):
-		if not value or value == "":
-			return None
 		value = value.strip()
 		if value == "":
-			return None
+			return value
 		if len(value) < 2:
 			raise serializers.ValidationError("El apellido debe tener al menos 2 caracteres si se proporciona.")
 		return value
 
 	def validate_telefono(self, value):
-		if not value or value == "":
-			return None
 		value = value.strip()
 		if value == "":
-			return None
+			return value
 		qs = Empleado.objects.filter(telefono=value)
 		if self.instance:
 			qs = qs.exclude(pk=self.instance.pk)
@@ -138,11 +134,7 @@ class EmpleadoSerializer(serializers.ModelSerializer):
 		return value
 
 	def validate_ci(self, value):
-		if not value or value == "":
-			return None
 		value = value.strip()
-		if value == "":
-			return None
 		qs = Empleado.objects.filter(ci=value)
 		if self.instance:
 			qs = qs.exclude(pk=self.instance.pk)
@@ -151,9 +143,8 @@ class EmpleadoSerializer(serializers.ModelSerializer):
 		return value
 
 	def validate_usuario(self, value):
-		# Convertir cadena vacía a None
-		if value == "" or value is None:
-			return None
+		if not value:
+			raise serializers.ValidationError("El campo usuario es obligatorio.")
 		# Verificar si el usuario ya está asignado a otro empleado
 		qs = Empleado.objects.filter(usuario=value)
 		if self.instance:
