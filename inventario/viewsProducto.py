@@ -3,21 +3,34 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
 import requests
-from operaciones_inventario.modelsItem import Item
-from operaciones_inventario.serializers.serializerItem import ItemSerializer
+from inventario.modelsProducto import Producto
+from inventario.serializers.serializerProducto import ProductoSerializer
 
 
-class ItemViewSet(viewsets.ModelViewSet):
-    queryset = Item.objects.all()
-    serializer_class = ItemSerializer
+class ProductoViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet para gestionar los productos.
+    Proporciona operaciones CRUD completas con soporte para categorías e imágenes.
+    """
+    queryset = Producto.objects.all()
+    serializer_class = ProductoSerializer
 
     def create(self, request, *args, **kwargs):
+        """
+        Crear un nuevo producto con soporte para subida de imágenes.
+        """
         return self.handle_image_upload(request, is_update=False)
 
     def update(self, request, *args, **kwargs):
+        """
+        Actualizar un producto existente con soporte para subida de imágenes.
+        """
         return self.handle_image_upload(request, is_update=True, *args, **kwargs)
 
     def handle_image_upload(self, request, is_update=False, *args, **kwargs):
+        """
+        Maneja la lógica de subida de imágenes a ImgBB y procesamiento de datos.
+        """
         # Crear una copia mutable de los datos
         data = request.data.copy()
         imagen_file = request.FILES.get("imagen")
@@ -52,6 +65,20 @@ class ItemViewSet(viewsets.ModelViewSet):
             if not data.get("imagen") and instance.imagen:
                 data["imagen"] = instance.imagen
 
+        # Si no se proporciona costo_promedio, usar precio_compra
+        if not data.get('costo_promedio') and not is_update:
+            data['costo_promedio'] = data.get('precio_compra')
+        
+        # Si es actualización y el precio de compra cambió, guardar el anterior
+        if is_update:
+            instance = self.get_object()
+            if 'precio_compra' in data and data['precio_compra'] != str(instance.precio_compra):
+                data['precio_compra_anterior'] = instance.precio_compra
+            
+            # Si no se proporciona costo_promedio, mantener el actual o usar el nuevo precio_compra
+            if not data.get('costo_promedio'):
+                data['costo_promedio'] = data.get('precio_compra', instance.costo_promedio)
+
         # Crear el serializer con los datos procesados
         if is_update:
             instance = self.get_object()
@@ -60,8 +87,7 @@ class ItemViewSet(viewsets.ModelViewSet):
             serializer = self.get_serializer(data=data)
 
         if serializer.is_valid():
-            instance = serializer.save()
-            
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED if not is_update else status.HTTP_200_OK)
         else:
             return Response(
@@ -70,6 +96,8 @@ class ItemViewSet(viewsets.ModelViewSet):
             )
 
     def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()      
-        # Llamar al método destroy del padre
+        """
+        Eliminar un producto.
+        """
+        instance = self.get_object()
         return super().destroy(request, *args, **kwargs)
