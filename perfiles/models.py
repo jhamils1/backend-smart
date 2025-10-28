@@ -30,7 +30,7 @@ class Empleado(models.Model):
     telefono = models.CharField(max_length=20, blank=True, null=True)
 
       # Relación 1-a-1: Un empleado es un usuario de Django
-    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"{self.nombre} {self.apellido} ({self.get_cargo_display()})"
@@ -56,6 +56,6 @@ class Cliente(models.Model):
     # nombre ya está en User
     telefono = models.CharField(max_length=20, blank=True, null=True)
     # Relación 1-a-1: Un cliente es un usuario de Django
-    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     def __str__(self):
         return f"{self.nombre} {self.apellido}"

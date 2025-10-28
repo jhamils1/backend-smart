@@ -76,6 +76,16 @@ class EmpleadoViewSet(viewsets.ModelViewSet):
     queryset = Empleado.objects.filter(estado='Activo').order_by('nombre', 'apellido')
     serializer_class = EmpleadoSerializer
 
+    def create(self, request, *args, **kwargs):
+        print("DEBUG - Datos recibidos:", request.data)
+        serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
+            print("DEBUG - Errores de validación:", serializer.errors)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
     def perform_destroy(self, instance):
         instance.estado = 'Inactivo'
         instance.save()
