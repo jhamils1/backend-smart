@@ -69,7 +69,6 @@ INSTALLED_APPS = [
     'inventario',
     'transacciones',
     'analitica',
-
      # Paquetes externos
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
@@ -244,6 +243,14 @@ STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
 
 # Firebase Cloud Messaging Configuration
 # Configuración para notificaciones push
-FIREBASE_PROJECT_ID = config('FIREBASE_PROJECT_ID', default='')
-FIREBASE_SERVICE_ACCOUNT_JSON = config('FIREBASE_SERVICE_ACCOUNT_JSON', default='')
+FIREBASE_PROJECT_ID = config('FIREBASE_PROJECT_ID', default='smartsales360')
+
+# Cargar credenciales desde archivo JSON
+FIREBASE_SERVICE_ACCOUNT_FILE = BASE_DIR / 'smartsales360-fd434-firebase-adminsdk-fbsvc-a1b619cdf2.json'
+if FIREBASE_SERVICE_ACCOUNT_FILE.exists():
+    import json
+    with open(FIREBASE_SERVICE_ACCOUNT_FILE, 'r') as f:
+        FIREBASE_SERVICE_ACCOUNT_JSON = json.dumps(json.load(f))
+else:
+    FIREBASE_SERVICE_ACCOUNT_JSON = config('FIREBASE_SERVICE_ACCOUNT_JSON', default='')
 

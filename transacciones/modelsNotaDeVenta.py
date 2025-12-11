@@ -41,9 +41,124 @@ class NotaDeVenta(models.Model):
         self.save()
 
     def marcar_pagada(self):
-        """Marca la nota de venta como pagada"""
+        """Marca la nota de venta como pagada y envía notificación push"""
         self.estado = 'pagada'
         self.save()
+        
+        # Enviar notificación push al cliente y administradores
+        self._enviar_notificacion_compra()
+    
+    def _enviar_notificacion_compra(self):
+        """Envía notificación push al cliente y a los administradores sobre la compra"""
+        try:
+            from perfiles.fcm_service import FCMService
+            from perfiles.models_device_token import DeviceToken
+            from django.contrib.auth.models import User
+            
+            fcm_service = FCMService()
+            
+            # 1️⃣ NOTIFICACIÓN AL CLIENTE
+            if self.cliente and self.cliente.usuario:
+                # Obtener tokens activos del cliente
+                tokens_cliente = DeviceToken.objects.filter(
+                    user=self.cliente.usuario,
+                    is_active=True
+                )
+                
+                if tokens_cliente.exists():
+                    # Preparar el mensaje para el cliente
+                    titulo_cliente = "¡Compra Exitosa! 🎉"
+                    mensaje_cliente = f"Tu orden {self.numero_comprobante} por ${self.total} ha sido procesada exitosamente."
+                    
+                    data_cliente = {
+                        'tipo': 'compra_cliente',
+                        'nota_venta_id': str(self.id),
+                        'numero_comprobante': self.numero_comprobante,
+                        'total': str(self.total),
+                        'route': '/mis-comprobantes'
+                    }
+                    
+                    # Enviar a cada token del cliente
+                    for device_token in tokens_cliente:
+                        try:
+                            resultado = fcm_service.send_push_notification(
+                                token=device_token.token,
+                                title=titulo_cliente,
+                                body=mensaje_cliente,
+                                data=data_cliente
+                            )
+                            
+                            if resultado.get('success'):
+                                print(f"✅ Notificación enviada al cliente {self.cliente.usuario.username} ({device_token.platform})")
+                            else:
+                                print(f"❌ Error enviando notificación al cliente: {resultado.get('error')}")
+                                
+                                # Si el token es inválido, desactivarlo
+                                if 'invalid' in resultado.get('error', '').lower() or 'not-registered' in resultado.get('error', '').lower():
+                                    device_token.is_active = False
+                                    device_token.save()
+                                    print(f"⚠️ Token del cliente desactivado: {device_token.token[:20]}...")
+                                    
+                        except Exception as e:
+                            print(f"❌ Error enviando notificación al cliente: {e}")
+                else:
+                    print(f"⚠️ No hay tokens FCM registrados para el cliente {self.cliente.usuario.username}")
+            
+            # 2️⃣ NOTIFICACIÓN A LOS ADMINISTRADORES
+            # Obtener todos los usuarios administradores y superusuarios
+            admins = User.objects.filter(
+                models.Q(is_superuser=True) | models.Q(is_staff=True)
+            ).distinct()
+            
+            if admins.exists():
+                # Preparar el mensaje para administradores
+                cliente_nombre = self.cliente.nombre if self.cliente else "Cliente desconocido"
+                titulo_admin = "Nueva Compra Registrada 💰"
+                mensaje_admin = f"{cliente_nombre} realizó una compra por ${self.total} (Orden: {self.numero_comprobante})"
+                
+                data_admin = {
+                    'tipo': 'compra_admin',
+                    'nota_venta_id': str(self.id),
+                    'numero_comprobante': self.numero_comprobante,
+                    'total': str(self.total),
+                    'cliente': cliente_nombre,
+                    'route': '/historial-ventas'
+                }
+                
+                # Enviar a cada administrador
+                for admin in admins:
+                    tokens_admin = DeviceToken.objects.filter(
+                        user=admin,
+                        is_active=True
+                    )
+                    
+                    for device_token in tokens_admin:
+                        try:
+                            resultado = fcm_service.send_push_notification(
+                                token=device_token.token,
+                                title=titulo_admin,
+                                body=mensaje_admin,
+                                data=data_admin
+                            )
+                            
+                            if resultado.get('success'):
+                                print(f"✅ Notificación enviada al administrador {admin.username} ({device_token.platform})")
+                            else:
+                                print(f"❌ Error enviando notificación al admin: {resultado.get('error')}")
+                                
+                                # Si el token es inválido, desactivarlo
+                                if 'invalid' in resultado.get('error', '').lower() or 'not-registered' in resultado.get('error', '').lower():
+                                    device_token.is_active = False
+                                    device_token.save()
+                                    print(f"⚠️ Token del admin desactivado: {device_token.token[:20]}...")
+                                    
+                        except Exception as e:
+                            print(f"❌ Error enviando notificación al admin {admin.username}: {e}")
+            else:
+                print("⚠️ No hay administradores registrados en el sistema")
+                    
+        except Exception as e:
+            print(f"❌ Error en _enviar_notificacion_compra: {e}")
     
     def validar_stock_disponible(self):
         """
