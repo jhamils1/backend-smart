@@ -14,7 +14,7 @@ from perfiles.models_device_token import DeviceToken
 print("🔔 Enviando notificación a superadmin...")
 
 try:
-    user = User.objects.get(username='superadmin')
+    user = User.objects.get(username='jha')
     tokens = DeviceToken.objects.filter(user=user, is_active=True)
     
     print(f"📱 Dispositivos: {tokens.count()}")

@@ -28,7 +28,9 @@ local_settings.py
 .DS_Store
 *.log
 # Ignorar llaves y entornos
-*.json
+# *.json  # Comentado para permitir archivos JSON necesarios
+smartsales360-fd434-firebase-adminsdk-fbsvc-a1b619cdf2.json  # Excluir credenciales de Firebase
+!railway.json  # Permitir railway.json
 *.env
 venv/
 __pycache__/
