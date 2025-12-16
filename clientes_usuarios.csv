@@ -1,0 +1,51 @@
+username,email,password,nombre,apellido,ci,direccion,sexo,telefono
+cliente001,cliente001@mail.com,cliente123,Juan,Pérez,1234501,Av. Siempre Viva 123,M,70001001
+cliente002,cliente002@mail.com,cliente123,María,González,1234502,Calle Falsa 456,F,70001002
+cliente003,cliente003@mail.com,cliente123,Carlos,Rodríguez,1234503,Av. Principal 789,M,70001003
+cliente004,cliente004@mail.com,cliente123,Ana,López,1234504,Calle Secundaria 101,F,70001004
+cliente005,cliente005@mail.com,cliente123,Luis,Martínez,1234505,Av. Central 202,M,70001005
+cliente006,cliente006@mail.com,cliente123,Laura,García,1234506,Calle Norte 303,F,70001006
+cliente007,cliente007@mail.com,cliente123,Pedro,Fernández,1234507,Av. Sur 404,M,70001007
+cliente008,cliente008@mail.com,cliente123,Carmen,Sánchez,1234508,Calle Este 505,F,70001008
+cliente009,cliente009@mail.com,cliente123,José,Ramírez,1234509,Av. Oeste 606,M,70001009
+cliente010,cliente010@mail.com,cliente123,Patricia,Torres,1234510,Calle Libertad 707,F,70001010
+cliente011,cliente011@mail.com,cliente123,Miguel,Flores,1234511,Av. Independencia 808,M,70001011
+cliente012,cliente012@mail.com,cliente123,Isabel,Morales,1234512,Calle Paz 909,F,70001012
+cliente013,cliente013@mail.com,cliente123,Roberto,Jiménez,1234513,Av. Progreso 1001,M,70001013
+cliente014,cliente014@mail.com,cliente123,Elena,Vargas,1234514,Calle Unión 1102,F,70001014
+cliente015,cliente015@mail.com,cliente123,Fernando,Castro,1234515,Av. Victoria 1203,M,70001015
+cliente016,cliente016@mail.com,cliente123,Rosa,Ortiz,1234516,Calle Esperanza 1304,F,70001016
+cliente017,cliente017@mail.com,cliente123,Alberto,Ruiz,1234517,Av. Libertador 1405,M,70001017
+cliente018,cliente018@mail.com,cliente123,Sofía,Mendoza,1234518,Calle Bolívar 1506,F,70001018
+cliente019,cliente019@mail.com,cliente123,Ricardo,Herrera,1234519,Av. Sucre 1607,M,70001019
+cliente020,cliente020@mail.com,cliente123,Gabriela,Medina,1234520,Calle Ayacucho 1708,F,70001020
+cliente021,cliente021@mail.com,cliente123,Diego,Guzmán,1234521,Av. 6 de Agosto 1809,M,70001021
+cliente022,cliente022@mail.com,cliente123,Valeria,Rojas,1234522,Calle 16 de Julio 1910,F,70001022
+cliente023,cliente023@mail.com,cliente123,Andrés,Peña,1234523,Av. Camacho 2011,M,70001023
+cliente024,cliente024@mail.com,cliente123,Daniela,Chávez,1234524,Calle Comercio 2112,F,70001024
+cliente025,cliente025@mail.com,cliente123,Javier,Ríos,1234525,Av. Ballivián 2213,M,70001025
+cliente026,cliente026@mail.com,cliente123,Natalia,Cruz,1234526,Calle Potosí 2314,F,70001026
+cliente027,cliente027@mail.com,cliente123,Sergio,Vega,1234527,Av. Arce 2415,M,70001027
+cliente028,cliente028@mail.com,cliente123,Carolina,Silva,1234528,Calle Cochabamba 2516,F,70001028
+cliente029,cliente029@mail.com,cliente123,Raúl,Campos,1234529,Av. Saavedra 2617,M,70001029
+cliente030,cliente030@mail.com,cliente123,Adriana,Navarro,1234530,Calle Oruro 2718,F,70001030
+cliente031,cliente031@mail.com,cliente123,Héctor,Paredes,1234531,Av. Montes 2819,M,70001031
+cliente032,cliente032@mail.com,cliente123,Mónica,Reyes,1234532,Calle Tarija 2920,F,70001032
+cliente033,cliente033@mail.com,cliente123,Gustavo,Salazar,1234533,Av. Illimani 3021,M,70001033
+cliente034,cliente034@mail.com,cliente123,Paola,Aguilar,1234534,Calle Beni 3122,F,70001034
+cliente035,cliente035@mail.com,cliente123,Marcos,Cortez,1234535,Av. Pando 3223,M,70001035
+cliente036,cliente036@mail.com,cliente123,Sandra,Mora,1234536,Calle Santa Cruz 3324,F,70001036
+cliente037,cliente037@mail.com,cliente123,Arturo,Delgado,1234537,Av. La Paz 3425,M,70001037
+cliente038,cliente038@mail.com,cliente123,Lucía,Guerrero,1234538,Calle Chuquisaca 3526,F,70001038
+cliente039,cliente039@mail.com,cliente123,Martín,Bravo,1234539,Av. Murillo 3627,M,70001039
+cliente040,cliente040@mail.com,cliente123,Verónica,Escobar,1234540,Calle Junín 3728,F,70001040
+cliente041,cliente041@mail.com,cliente123,Oscar,Lara,1234541,Av. Landaeta 3829,M,70001041
+cliente042,cliente042@mail.com,cliente123,Claudia,Ponce,1234542,Calle Pichincha 3930,F,70001042
+cliente043,cliente043@mail.com,cliente123,Víctor,Carrillo,1234543,Av. Busch 4031,M,70001043
+cliente044,cliente044@mail.com,cliente123,Silvia,Gallegos,1234544,Calle México 4132,F,70001044
+cliente045,cliente045@mail.com,cliente123,Jorge,Núñez,1234545,Av. España 4233,M,70001045
+cliente046,cliente046@mail.com,cliente123,Beatriz,Maldonado,1234546,Calle Ecuador 4334,F,70001046
+cliente047,cliente047@mail.com,cliente123,Esteban,Valdez,1234547,Av. Perú 4435,M,70001047
+cliente048,cliente048@mail.com,cliente123,Alejandra,Santana,1234548,Calle Colombia 4536,F,70001048
+cliente049,cliente049@mail.com,cliente123,Francisco,Ibarra,1234549,Av. Brasil 4637,M,70001049
+cliente050,cliente050@mail.com,cliente123,Lorena,Zamora,1234550,Calle Argentina 4738,F,70001050
